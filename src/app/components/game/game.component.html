@@ -1,0 +1,35 @@
+<div class="game-wrapper">
+  <div class="game-container">
+    <h1 class="title">Міні гра</h1>
+    <div class="top-form">
+      <input type="number" [(ngModel)]="timerDuration" placeholder="N (мс)" class="top-form__input">
+      <button (click)="startGame()" [disabled]="gameOver" class="top-form__button button">Почати</button>
+    </div>
+    <app-score
+      [playerScore]="playerScore"
+      [computerScore]="computerScore">
+    </app-score>
+    <div class="game-container__list">
+      <div class="game-container__item" *ngFor="let cell of cells; let i = index"
+          [ngClass]="{'normal': cell.state === 'normal', 'player': cell.state === 'player', 'computer': cell.state === 'computer', 'highlighted': cell.state === 'highlighted'}"
+          (click)="cellClick(cell.row, cell.col)">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [@fade] *ngIf="gameOver">
+  <div class="overlay"></div>
+  <div class="popup">
+    <div class="popup__content">
+      <div class="popup__winner">{{ winner }} виграв!</div>
+      <app-score
+        [playerScore]="playerScore"
+        [computerScore]="computerScore">
+      </app-score>
+      <div class="popup__button-container">
+        <button (click)="restartGame()" class="popup__button button">Почати заново</button>
+      </div>
+    </div>
+  </div>
+</div>
